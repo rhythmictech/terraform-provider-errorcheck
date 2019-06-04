@@ -4,4 +4,10 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func Prodiver()
+func Provider() *schema.Provider {
+	return &schema.Provider{
+		ResourcesMap: map[string]*schema.Resource{
+			"errorcheck_is_valid": resourceIsValid(),
+		},
+	}
+}

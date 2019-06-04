@@ -21,7 +21,7 @@ RUN go get -u -v \
   github.com/mgechev/revive \
   github.com/derekparker/delve/cmd/dlv 2>&1
 
-# gocode-gomod
+# gocode-gomodpre
 RUN go get -x -d github.com/stamblerre/gocode 2>&1 \
   && go build -o gocode-gomod github.com/stamblerre/gocode \
   && mv gocode-gomod $GOPATH/bin/
