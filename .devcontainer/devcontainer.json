@@ -1,9 +1,11 @@
 {
   "name": "Go",
   "dockerFile": "Dockerfile",
-  "appPort": 9000,
+  // "appPort": 9000,
   "extensions": [
-    "ms-vscode.go"
+    "ms-vscode.go",
+    "-v",
+    "your-volume-name-goes-here:/root/.vscode-remote"
   ],
   "runArgs": [
     "--cap-add=SYS_PTRACE",
@@ -11,6 +13,7 @@
     "seccomp=unconfined"
   ],
   "settings": {
-    "go.gopath": "/go"
+    "go.gopath": "/go",
+    "terminal.integrated.shell.linux": "/usr/bin/fish"
   }
 }
