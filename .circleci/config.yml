@@ -71,6 +71,7 @@ jobs:
     ####   /go/src/bitbucket.org/circleci/go-tool
     # working_directory: /go/src/github.com/rhythmictech/terraform-provider-errorcheck
     steps:
+      - run: sudo chown -R circleci /go/src
       - restore_cache:
           keys:
             - godeps-v2
