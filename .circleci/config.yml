@@ -8,18 +8,24 @@ workflows:
     jobs:
       - dependencies:
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: /.*/
       - Linux:
           requires:
             - dependencies
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: /.*/
       - Mac:
           requires:
             - dependencies
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: /.*/
       - release:
