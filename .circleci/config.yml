@@ -9,40 +9,19 @@ workflows:
       - dependencies:
           filters:
             tags:
-              # Complete semver compatible regex https://github.com/semver/semver/issues/232#issuecomment-405590488
-              only: /^
-                (0|[1-9]\d*)\.
-                (0|[1-9]\d*)\.
-                (0|[1-9]\d*)
-                (-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?
-                (\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?
-                $/
+              only: /.*/
       - Linux:
           requires:
             - dependencies
           filters:
             tags:
-              # Complete semver compatible regex https://github.com/semver/semver/issues/232#issuecomment-405590488
-              only: /^
-                (0|[1-9]\d*)\.
-                (0|[1-9]\d*)\.
-                (0|[1-9]\d*)
-                (-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?
-                (\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?
-                $/
+              only: /.*/
       - Mac:
           requires:
             - dependencies
           filters:
             tags:
-              # Complete semver compatible regex https://github.com/semver/semver/issues/232#issuecomment-405590488
-              only: /^
-                (0|[1-9]\d*)\.
-                (0|[1-9]\d*)\.
-                (0|[1-9]\d*)
-                (-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?
-                (\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?
-                $/
+              only: /.*/
       - release:
           requires:
             - Linux
@@ -52,14 +31,7 @@ workflows:
             branches:
               ignore: /.*/
             tags:
-              # Complete semver compatible regex https://github.com/semver/semver/issues/232#issuecomment-405590488
-              only: /^
-                (0|[1-9]\d*)\.
-                (0|[1-9]\d*)\.
-                (0|[1-9]\d*)
-                (-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?
-                (\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?
-                $/
+              only: /.*/
 
 jobs:
   dependencies:
