@@ -102,6 +102,7 @@ jobs:
             - src-v1-{{ .Branch }}-
             - src-v1-
             - pkg-v1
+      - checkout
       - run: go build -o terraform-provider-errorcheck_v${CIRCLE_TAG}_linux_amd64
       - persist_to_workspace:
           root: .
@@ -122,6 +123,7 @@ jobs:
             - src-v1-{{ .Branch }}-
             - src-v1-
             - pkg-v1
+      - checkout
       - run: GOOS=darwin GOARCH=amd64 go build -o terraform-provider-errorcheck_v${CIRCLE_TAG}_darwin_amd64
       - persist_to_workspace:
           root: .
