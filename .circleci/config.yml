@@ -127,13 +127,14 @@ jobs:
           at: ./artifacts
       - run:
           name: "Publish Release on GitHub"
-          command: |
+          command: >
             VERSION=${CIRCLE_TAG}
-            ghr -t ${GITHUB_TOKEN} \
-            -u ${CIRCLE_PROJECT_USERNAME} \
-            -r ${CIRCLE_PROJECT_REPONAME} \
-            -c ${CIRCLE_SHA1} \
-            -n ${VERSION} \
+
+            ghr -t ${GITHUB_TOKEN} 
+            -u ${CIRCLE_PROJECT_USERNAME} 
+            -r ${CIRCLE_PROJECT_REPONAME} 
+            -c ${CIRCLE_SHA1} 
+            -n ${VERSION} 
             -b $(git log $(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))..HEAD --oneline)
-            -delete ${VERSION} \
+            -delete ${VERSION} 
             ./artifacts/
