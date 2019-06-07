@@ -10,39 +10,39 @@ workflows:
           filters:
             tags:
               # Complete semver compatible regex https://github.com/semver/semver/issues/232#issuecomment-405590488
-              only: /
-                ^(?'MAJOR'0|[1-9]\d*)\.
-                (?'MINOR'0|[1-9]\d*)\.
-                (?'PATCH'0|[1-9]\d*)
-                (?:-(?'PRE_RELEASE'(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?
-                (?:\+(?'BUILD'[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-                /
+              only: /^
+                (0|[1-9]\d*)\.
+                (0|[1-9]\d*)\.
+                (0|[1-9]\d*)
+                (-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?
+                (\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?
+                $/
       - Linux:
           requires:
             - dependencies
           filters:
             tags:
               # Complete semver compatible regex https://github.com/semver/semver/issues/232#issuecomment-405590488
-              only: /
-                ^(?'MAJOR'0|[1-9]\d*)\.
-                (?'MINOR'0|[1-9]\d*)\.
-                (?'PATCH'0|[1-9]\d*)
-                (?:-(?'PRE_RELEASE'(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?
-                (?:\+(?'BUILD'[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-                /
+              only: /^
+                (0|[1-9]\d*)\.
+                (0|[1-9]\d*)\.
+                (0|[1-9]\d*)
+                (-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?
+                (\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?
+                $/
       - Mac:
           requires:
             - dependencies
           filters:
             tags:
               # Complete semver compatible regex https://github.com/semver/semver/issues/232#issuecomment-405590488
-              only: /
-                ^(?'MAJOR'0|[1-9]\d*)\.
-                (?'MINOR'0|[1-9]\d*)\.
-                (?'PATCH'0|[1-9]\d*)
-                (?:-(?'PRE_RELEASE'(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?
-                (?:\+(?'BUILD'[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-                /
+              only: /^
+                (0|[1-9]\d*)\.
+                (0|[1-9]\d*)\.
+                (0|[1-9]\d*)
+                (-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?
+                (\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?
+                $/
       - release:
           requires:
             - Linux
@@ -53,13 +53,13 @@ workflows:
               ignore: /.*/
             tags:
               # Complete semver compatible regex https://github.com/semver/semver/issues/232#issuecomment-405590488
-              only: /
-                ^(?'MAJOR'0|[1-9]\d*)\.
-                (?'MINOR'0|[1-9]\d*)\.
-                (?'PATCH'0|[1-9]\d*)
-                (?:-(?'PRE_RELEASE'(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?
-                (?:\+(?'BUILD'[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
-                /
+              only: /^
+                (0|[1-9]\d*)\.
+                (0|[1-9]\d*)\.
+                (0|[1-9]\d*)
+                (-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?
+                (\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?
+                $/
 
 jobs:
   dependencies:
