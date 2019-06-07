@@ -133,7 +133,7 @@ jobs:
           root: .
           paths:
             - terraform-provider-errorcheck*
-  publish-github-release:
+  release:
     docker:
       - image: cibuilds/github:0.12
     steps:
