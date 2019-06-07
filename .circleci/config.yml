@@ -47,7 +47,7 @@ workflows:
           requires:
             - Linux
             - Mac
-          context: GitHub Releases
+          context: github-releases
           filters:
             branches:
               ignore: /.*/
