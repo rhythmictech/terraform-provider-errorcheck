@@ -117,6 +117,12 @@ jobs:
     docker:
       - image: cibuilds/github:0.12
     steps:
+      - restore_cache:
+          keys:
+            - src-v1-{{ .Branch }}-{{ .Revision }}
+            - src-v1-{{ .Branch }}-
+            - src-v1-
+      - checkout
       - attach_workspace:
           at: ./artifacts
       - run:
