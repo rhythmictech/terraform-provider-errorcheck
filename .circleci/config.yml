@@ -73,10 +73,10 @@ jobs:
     steps:
       - restore_cache:
           keys:
+            - godeps-v1
             - src-v1-{{ .Branch }}-{{ .Revision }}
             - src-v1-{{ .Branch }}-
             - src-v1-
-            - pkg-v1
       - checkout
       - save_cache:
           key: src-v1-{{ .Branch }}-{{ .Revision }}
@@ -84,9 +84,10 @@ jobs:
             - ".git"
       - run: go get -v -t -d ./...
       - save_cache:
-          key: pkg-v1
+          key: godeps-v1
           paths:
             - "/go/pkg"
+            - "/go/src"
   Linux:
     docker:
       - image: circleci/golang:1
@@ -94,14 +95,14 @@ jobs:
     #### expecting it in the form of
     ####   /go/src/github.com/circleci/go-tool
     ####   /go/src/bitbucket.org/circleci/go-tool
-    working_directory: /go/src/github.com/rhythmictech/terraform-provider-errorcheck
+    # working_directory: /go/src/github.com/rhythmictech/terraform-provider-errorcheck
     steps:
       - restore_cache:
           keys:
+            - godeps-v1
             - src-v1-{{ .Branch }}-{{ .Revision }}
             - src-v1-{{ .Branch }}-
             - src-v1-
-            - pkg-v1
       - checkout
       - run: go build -o terraform-provider-errorcheck_v${CIRCLE_TAG}_linux_amd64
       - persist_to_workspace:
@@ -115,14 +116,14 @@ jobs:
     #### expecting it in the form of
     ####   /go/src/github.com/circleci/go-tool
     ####   /go/src/bitbucket.org/circleci/go-tool
-    working_directory: /go/src/github.com/rhythmictech/terraform-provider-errorcheck
+    # working_directory: /go/src/github.com/rhythmictech/terraform-provider-errorcheck
     steps:
       - restore_cache:
           keys:
+            - godeps-v1
             - src-v1-{{ .Branch }}-{{ .Revision }}
             - src-v1-{{ .Branch }}-
             - src-v1-
-            - pkg-v1
       - checkout
       - run: GOOS=darwin GOARCH=amd64 go build -o terraform-provider-errorcheck_v${CIRCLE_TAG}_darwin_amd64
       - persist_to_workspace:
