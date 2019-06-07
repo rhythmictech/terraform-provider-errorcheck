@@ -84,7 +84,6 @@ jobs:
           paths:
             - ".git"
       - run: go get -v -t -d ./...
-      - run: chown -R 
       - save_cache:
           key: godeps-v2
           paths:
