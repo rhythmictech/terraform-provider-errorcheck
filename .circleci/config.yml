@@ -135,6 +135,5 @@ jobs:
             -r ${CIRCLE_PROJECT_REPONAME} 
             -c ${CIRCLE_SHA1} 
             -n ${VERSION} 
-            -b $(git log $(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))..HEAD --oneline)
             -delete ${VERSION} 
             ./artifacts/
