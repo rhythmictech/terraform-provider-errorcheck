@@ -1,0 +1,147 @@
+# Golang CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-go/ for more details
+version: 2
+workflows:
+  version: 2
+  build_and_release:
+    jobs:
+      - dependencies:
+          filters:
+            tags:
+              # Complete semver compatible regex https://github.com/semver/semver/issues/232#issuecomment-405590488
+              only: /
+                ^(?'MAJOR'0|[1-9]\d*)\.
+                (?'MINOR'0|[1-9]\d*)\.
+                (?'PATCH'0|[1-9]\d*)
+                (?:-(?'PRE_RELEASE'(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?
+                (?:\+(?'BUILD'[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+                /
+      - Linux:
+          requires:
+            - dependencies
+          filters:
+            tags:
+              # Complete semver compatible regex https://github.com/semver/semver/issues/232#issuecomment-405590488
+              only: /
+                ^(?'MAJOR'0|[1-9]\d*)\.
+                (?'MINOR'0|[1-9]\d*)\.
+                (?'PATCH'0|[1-9]\d*)
+                (?:-(?'PRE_RELEASE'(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?
+                (?:\+(?'BUILD'[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+                /
+      - Mac:
+          requires:
+            - dependencies
+          filters:
+            tags:
+              # Complete semver compatible regex https://github.com/semver/semver/issues/232#issuecomment-405590488
+              only: /
+                ^(?'MAJOR'0|[1-9]\d*)\.
+                (?'MINOR'0|[1-9]\d*)\.
+                (?'PATCH'0|[1-9]\d*)
+                (?:-(?'PRE_RELEASE'(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?
+                (?:\+(?'BUILD'[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+                /
+      - release:
+          requires:
+            - Linux
+            - Mac
+          context: GitHub Releases
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              # Complete semver compatible regex https://github.com/semver/semver/issues/232#issuecomment-405590488
+              only: /
+                ^(?'MAJOR'0|[1-9]\d*)\.
+                (?'MINOR'0|[1-9]\d*)\.
+                (?'PATCH'0|[1-9]\d*)
+                (?:-(?'PRE_RELEASE'(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?
+                (?:\+(?'BUILD'[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$
+                /
+
+jobs:
+  dependencies:
+    docker:
+      - image: circleci/golang:1
+    #### TEMPLATE_NOTE: go expects specific checkout path representing url
+    #### expecting it in the form of
+    ####   /go/src/github.com/circleci/go-tool
+    ####   /go/src/bitbucket.org/circleci/go-tool
+    working_directory: /go/src/github.com/rhythmictech/terraform-provider-errorcheck
+    steps:
+      - restore_cache:
+          keys:
+            - src-v1-{{ .Branch }}-{{ .Revision }}
+            - src-v1-{{ .Branch }}-
+            - src-v1-
+            - pkg-v1
+      - checkout
+      - save_cache:
+          key: src-v1-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - ".git"
+      - run: go get -v -t -d ./...
+      - save_cache:
+          key: pkg-v1
+          paths:
+            - "/go/pkg"
+  Linux:
+    docker:
+      - image: circleci/golang:1
+    #### TEMPLATE_NOTE: go expects specific checkout path representing url
+    #### expecting it in the form of
+    ####   /go/src/github.com/circleci/go-tool
+    ####   /go/src/bitbucket.org/circleci/go-tool
+    working_directory: /go/src/github.com/rhythmictech/terraform-provider-errorcheck
+    steps:
+      - restore_cache:
+          keys:
+            - src-v1-{{ .Branch }}-{{ .Revision }}
+            - src-v1-{{ .Branch }}-
+            - src-v1-
+            - pkg-v1
+      - run: go build -o terraform-provider-errorcheck_v${CIRCLE_TAG}_linux_amd64
+      - persist_to_workspace:
+          root: .
+          paths:
+            - terraform-provider-errorcheck*
+  Mac:
+    docker:
+      - image: circleci/golang:1
+    #### TEMPLATE_NOTE: go expects specific checkout path representing url
+    #### expecting it in the form of
+    ####   /go/src/github.com/circleci/go-tool
+    ####   /go/src/bitbucket.org/circleci/go-tool
+    working_directory: /go/src/github.com/rhythmictech/terraform-provider-errorcheck
+    steps:
+      - restore_cache:
+          keys:
+            - src-v1-{{ .Branch }}-{{ .Revision }}
+            - src-v1-{{ .Branch }}-
+            - src-v1-
+            - pkg-v1
+      - run: GOOS=darwin GOARCH=amd64 go build -o terraform-provider-errorcheck_v${CIRCLE_TAG}_darwin_amd64
+      - persist_to_workspace:
+          root: .
+          paths:
+            - terraform-provider-errorcheck*
+  publish-github-release:
+    docker:
+      - image: cibuilds/github:0.12
+    steps:
+      - attach_workspace:
+          at: ./artifacts
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            VERSION=$(CIRCLE_TAG)
+            ghr -t ${GITHUB_TOKEN} \
+            -u ${CIRCLE_PROJECT_USERNAME} \
+            -r ${CIRCLE_PROJECT_REPONAME} \
+            -c ${CIRCLE_SHA1} \
+            -n ${VERSION} \
+            -b $(git log $(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))..HEAD --oneline)
+            -delete ${VERSION} \
+            ./artifacts/
