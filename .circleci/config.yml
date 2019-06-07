@@ -83,7 +83,7 @@ jobs:
       - persist_to_workspace:
           root: "."
           paths:
-            - terraform-provider-errorcheck_v${CIRCLE_TAG}_linux_amd64
+            - terraform-provider-errorcheck_v*_linux_amd64
   Mac:
     docker:
       - image: circleci/golang:1
@@ -106,7 +106,7 @@ jobs:
       - persist_to_workspace:
           root: "."
           paths:
-            - terraform-provider-errorcheck_v${CIRCLE_TAG}_darwin_amd64
+            - terraform-provider-errorcheck_v*_darwin_amd64
   release:
     docker:
       - image: cibuilds/github:0.12
