@@ -14,6 +14,10 @@ func resourceIsValid() *schema.Resource {
 		Delete: resourceIsValidDelete,
 
 		Schema: map[string]*schema.Schema{
+			"name": &schema.Schema{
+				Type:     schema.TypeString,
+				Required: true,
+			},
 			"test": &schema.Schema{
 				Type:     schema.TypeBool,
 				Required: true,
@@ -30,11 +34,27 @@ func resourceIsValid() *schema.Resource {
 }
 
 func resourceIsValidCreate(d *schema.ResourceData, m interface{}) error {
+	name := d.Get("name").s(string)
+	test := d.Get("test").(string)
+	d.SetId(name)
 	return resourceIsValidRead(d, m)
 }
 
 func resourceIsValidRead(d *schema.ResourceData, m interface{}) error {
-	return nil
+	client := m.(*MyClient)
+
+  // Attempt to read from an upstream API
+  obj, ok := client.Get(d.Id())
+
+  // If the resource does not exist, inform Terraform. We want to immediately
+  // return here to prevent further processing.
+  if !ok {
+    d.SetId("")
+    return nil
+  }
+
+  d.Set("address", obj.Address)
+  return nil
 }
 
 func resourceIsValidUpdate(d *schema.ResourceData, m interface{}) error {
