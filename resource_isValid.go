@@ -41,19 +41,8 @@ func resourceIsValidCreate(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceIsValidRead(d *schema.ResourceData, m interface{}) error {
-	client := m.(*MyClient)
-
-  // Attempt to read from an upstream API
-  obj, ok := client.Get(d.Id())
-
-  // If the resource does not exist, inform Terraform. We want to immediately
-  // return here to prevent further processing.
-  if !ok {
-    d.SetId("")
-    return nil
-  }
-
-  d.Set("address", obj.Address)
+	d.Set("name", obj.Name)
+	d.Set("address", obj.Address)
   return nil
 }
 
