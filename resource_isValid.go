@@ -34,7 +34,7 @@ func resourceIsValid() *schema.Resource {
 }
 
 func resourceIsValidCreate(d *schema.ResourceData, m interface{}) error {
-	name := d.Get("name").s(string)
+	name := d.Get("name").(string)
 	test := d.Get("test").(string)
 	d.SetId(name)
 	return resourceIsValidRead(d, m)
