@@ -41,8 +41,6 @@ func resourceIsValidCreate(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceIsValidRead(d *schema.ResourceData, m interface{}) error {
-	d.Set("name", obj.Name)
-	d.Set("address", obj.Address)
   return nil
 }
 
