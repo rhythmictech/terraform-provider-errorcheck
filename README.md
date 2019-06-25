@@ -1,7 +1,15 @@
 # terraform-provider-errorcheck
 ## A custom terraform provider that can be used to do complex validation during planning and validation
 
-###example:
+
+### Installation:
+
+If you want to use the script directly from this repo:
+`curl -sSL https://raw.githubusercontent.com/rhythmictech/terraform-provider-errorcheck/master/update-provider.sh | bash`
+
+Otherwise you can download `update-provider.sh` and run it locally
+
+### example:
 code:
 ```terraform
 locals {
