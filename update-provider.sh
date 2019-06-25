@@ -15,12 +15,12 @@ rm terraform.d/plugins/darwin_amd64/*
 
 # Download Linux provider
 curl -sSL -o \
-  "terraform.d/plugins/linux_amd64/terraform_provider_errorcheck_v${version}" \
+  "terraform.d/plugins/linux_amd64/terraform-provider-errorcheck_v${version}" \
   "https://github.com/rhythmictech/terraform-provider-errorcheck/releases/download/${version}/terraform-provider-errorcheck_v${version}_linux_amd64"
 chmod 0744 terraform.d/plugins/linux_amd64/*
 
 # Download Mac provider
 curl -sSL -o \
-  "terraform.d/plugins/darwin_amd64/terraform_provider_errorcheck_v${version}" \
+  "terraform.d/plugins/darwin_amd64/terraform-provider-errorcheck_v${version}" \
   "https://github.com/rhythmictech/terraform-provider-errorcheck/releases/download/${version}/terraform-provider-errorcheck_v${version}_darwin_amd64"
 chmod 0744 terraform.d/plugins/darwin_amd64/*
