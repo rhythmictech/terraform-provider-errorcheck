@@ -19,20 +19,27 @@ locals {
 }
 
 resource "errorcheck_is_valid" "shouldMatch" {
-  name = "shouldMatch"
-  test = local.compare == local.testSuccess
+  name = "check_something"
+  test = {
+    assert = local.compare == local.testSuccess
+    error_message = "Your assertion is not valid"
+  }
 }
 
 resource "errorcheck_is_valid" "Not_valid_if_not_match" {
-  name = "Not_valid_if_not_match"
-  test = local.compare == local.testFail
+  name = "Should not match"
+  test = {
+    assert = local.compare == local.testFail
+    error_message = "Your assertion is not valid"
+  }
 }
+
 ```
 output:
 ```bash
 terraform validate .
 
-Error: Not Valid
+Error: Your assertion is not valid
 
   on main.tf line 11, in resource "errorcheck_is_valid" "Not_valid_if_not_match":
   11: resource "errorcheck_is_valid" "Not_valid_if_not_match" {
