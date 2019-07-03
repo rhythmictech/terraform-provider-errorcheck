@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/hashicorp/terraform/helper/schema"
 )
@@ -19,12 +20,34 @@ func resourceIsValid() *schema.Resource {
 				Required: true,
 			},
 			"test": &schema.Schema{
-				Type:     schema.TypeBool,
+				Type:     schema.TypeMap,
 				Required: true,
 				ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
-					v := val.(bool)
-					if v != true {
-						errs = append(errs, fmt.Errorf("Not Valid"))
+					v := val.(map[string]interface{})
+					var errorMessage = "Not Valid"
+
+					// Get assertValue (string)
+					assertValue, assertKeyExists := v["assert"]
+					if !assertKeyExists {
+						errs = append(errs, fmt.Errorf("'test' map must contain an 'assert' key"))
+						return
+					}
+
+					// Parse assert value (string -> bool)
+					assert, err := strconv.ParseBool(assertValue.(string))
+					if err != nil {
+						errs = append(errs, fmt.Errorf("Your assert must be a bool: %v", assertValue))
+						return
+					}
+
+					// Get optional error message
+					if x, ok := v["error_message"]; ok {
+						errorMessage = x.(string)
+					}
+
+					// Check assertion
+					if !assert {
+						errs = append(errs, fmt.Errorf(errorMessage))
 					}
 					return
 				},
@@ -43,7 +66,7 @@ func resourceIsValidCreate(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceIsValidRead(d *schema.ResourceData, m interface{}) error {
-  return nil
+	return nil
 }
 
 func resourceIsValidUpdate(d *schema.ResourceData, m interface{}) error {
