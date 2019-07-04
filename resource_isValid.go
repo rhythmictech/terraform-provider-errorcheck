@@ -58,7 +58,7 @@ func resourceIsValid() *schema.Resource {
 
 func resourceIsValidCreate(d *schema.ResourceData, m interface{}) error {
 	name := d.Get("name").(string)
-	test := d.Get("test").(bool)
+	test := d.Get("test").(map[string]interface{})
 	d.SetId(name)
 	d.Set("name", name)
 	d.Set("test", test)
