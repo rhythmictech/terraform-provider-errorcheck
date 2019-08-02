@@ -53,14 +53,7 @@ jobs:
       - restore_cache:
           keys:
             - godeps-v2
-            - src-v1-{{ .Branch }}-{{ .Revision }}
-            - src-v1-{{ .Branch }}-
-            - src-v1-
       - checkout
-      - save_cache:
-          key: src-v1-{{ .Branch }}-{{ .Revision }}
-          paths:
-            - ".git"
       - run: go get -v -t -d ./...
       - save_cache:
           key: godeps-v2
@@ -80,9 +73,6 @@ jobs:
       - restore_cache:
           keys:
             - godeps-v2
-            - src-v1-{{ .Branch }}-{{ .Revision }}
-            - src-v1-{{ .Branch }}-
-            - src-v1-
       - checkout
       - run: CGO_ENABLED=0 go build -a -ldflags '-s' -o terraform-provider-errorcheck_v${CIRCLE_TAG}_linux_amd64
       - run: pwd && ls -la
@@ -103,9 +93,6 @@ jobs:
       - restore_cache:
           keys:
             - godeps-v2
-            - src-v1-{{ .Branch }}-{{ .Revision }}
-            - src-v1-{{ .Branch }}-
-            - src-v1-
       - checkout
       - run: GOOS=darwin GOARCH=amd64 go build -a -ldflags '-s' -o terraform-provider-errorcheck_v${CIRCLE_TAG}_darwin_amd64
       - run: pwd && ls -la
@@ -117,12 +104,6 @@ jobs:
     docker:
       - image: cibuilds/github:0.12
     steps:
-      - restore_cache:
-          keys:
-            - src-v1-{{ .Branch }}-{{ .Revision }}
-            - src-v1-{{ .Branch }}-
-            - src-v1-
-      - checkout
       - attach_workspace:
           at: ./artifacts
       - run:
