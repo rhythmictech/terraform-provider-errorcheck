@@ -14,8 +14,8 @@ else
 fi
 
 # Delete old versions
-rm $linux_plugin_dir/*
-rm $mac_plugin_dir/*
+[ -d $linux_plugin_dir ] && rm $linux_plugin_dir/*
+[ -d $mac_plugin_dir ] && rm $mac_plugin_dir/*
 
 # if it doesn't exist
 # then create plugin dir
