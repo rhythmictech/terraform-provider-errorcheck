@@ -1,7 +1,7 @@
-# docs
+# terraform-provider-errorcheck Provider
 docs for `terraform-provider-errorcheck`
 
-### example:
+## Example Usage
 
 code:
 ```terraform
