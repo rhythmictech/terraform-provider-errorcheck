@@ -6,9 +6,6 @@ on:
   pull_request:
   push:
 
-env:
-  GO111MODULE: auto
-
 jobs:
   goreleaser:
     runs-on: ubuntu-latest
