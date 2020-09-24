@@ -1,5 +1,10 @@
 # terraform-provider-errorcheck
-## A custom terraform provider that can be used to do complex validation during planning and validation
+A custom terraform provider that can be used to do complex validation during planning and validation
+
+## **Deprecation warning:**
+While we intend on supporting this provider for the forseeable future, we have recently found a way to implement this as a module rather than a provider, allowing greater ease of use with the same interface.  
+[GitHub](https://github.com/rhythmictech/terraform-terraform-errorcheck)  
+[Terraform Registry](https://registry.terraform.io/modules/rhythmictech/errorcheck/terraform/1.0.0)
 
 
 ### Installation:
