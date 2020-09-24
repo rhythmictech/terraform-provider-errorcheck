@@ -6,8 +6,8 @@ mac_plugin_dir="terraform.d/plugins/darwin_amd64"
 
 if [ -z "${1}" ]
 then
-  # Get latest version
-  version="$(curl -sL https://api.github.com/repos/rhythmictech/terraform-provider-errorcheck/releases/latest | jq -r '.name')"
+  # Default to 2.0.3
+  version="2.0.3"
 else
   # Get specific version
   version="${1}"
